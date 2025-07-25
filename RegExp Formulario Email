@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario de Registro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    .alerta {
+      padding: 10px;
+      margin-top: 10px;
+      color: #fff;
+      border-radius: 5px;
+    }
+    .exito {
+      background-color: #00ff08;
+    }
+    .error {
+      background-color: #ff1100;
+    }
+  </style>
+</head>
+<body>
+  <h2>Formulario de Registro</h2>
+  
+  <form id="registroForm">
+    <label>Nombre completo:</label><br>
+    <input type="text" id="nombre"><br><br>
+    <label>Email:</label><br>
+    <input type="email" id="email"><br><br>
+    <label>Contraseña:</label><br>
+    <input type="password" id="contrasena"><br><br>
+    <label>Confirmar contraseña:</label><br>
+    <input type="password" id="confirmarContrasena"><br><br>
+    <label>Edad:</label><br>
+    <input type="number" id="edad"><br><br>
+    <button type="submit">Registrarse</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("registroForm");
+    function mostrarAlerta(mensaje, tipo) {
+      const alerta = document.createElement("div");
+      alerta.className = "alerta " + (tipo === "error" ? "error" : "exito");
+      alerta.innerText = mensaje;
+      document.body.appendChild(alerta);
+
+      setTimeout(() => {
+        alerta.remove();
+      }, 3000);
+    }
+    
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nombre = document.getElementById("nombre").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const contrasena = document.getElementById("contrasena").value;
+      const confirmar = document.getElementById("confirmarContrasena").value;
+      const edad = parseInt(document.getElementById("edad").value);
+
+      if (nombre.length < 3) {
+        mostrarAlerta("El nombre debe tener al menos 3 letras.", "error");
+        return;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        mostrarAlerta("El correo no es valido.", "error");
+        return;
+      }
+      if (contrasena.length < 6) {
+        mostrarAlerta("La contraseña debe tener al menos 6 caracteres.", "error");
+        return;
+      }
+      if (contrasena !== confirmar) {
+        mostrarAlerta("Las contraseñas no coinciden.", "error");
+        return;
+      }
+      if (isNaN(edad) || edad <= 12) {
+        mostrarAlerta("La edad debe ser mayor a 12.", "error");
+        return;
+      }
+      mostrarAlerta("¡Registro exitoso!", "exito");
+    });
+  </script>
+</body>
+</html>
