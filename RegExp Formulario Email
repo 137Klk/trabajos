@@ -74,6 +74,11 @@
         mostrarAlerta("La contraseña debe tener al menos 6 caracteres.", "error");
         return;
       }
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/;
+      if (!passwordRegex.test(contrasena)) {
+        mostrarAlerta("La contraseña debe incluir mayusculas, minusculas, numeros y un caracter especial.", "error");
+        return;
+      }
       if (contrasena !== confirmar) {
         mostrarAlerta("Las contraseñas no coinciden.", "error");
         return;
